@@ -376,6 +376,15 @@ export namespace Components {
     interface AppSlotType {
         "selectedElement": HTMLElement;
     }
+    interface AppSvgBackground {
+        "colorType": 'text' | 'background';
+        "deck": boolean;
+        "expander": boolean;
+        "initCurrentColors": () => Promise<void>;
+        "moreColors": boolean;
+        "selectedElement": HTMLElement;
+        "slide": boolean;
+    }
     interface AppTeam {
     }
     interface AppTerms {
@@ -1028,6 +1037,12 @@ declare global {
         prototype: HTMLAppSlotTypeElement;
         new (): HTMLAppSlotTypeElement;
     };
+    interface HTMLAppSvgBackgroundElement extends Components.AppSvgBackground, HTMLStencilElement {
+    }
+    var HTMLAppSvgBackgroundElement: {
+        prototype: HTMLAppSvgBackgroundElement;
+        new (): HTMLAppSvgBackgroundElement;
+    };
     interface HTMLAppTeamElement extends Components.AppTeam, HTMLStencilElement {
     }
     var HTMLAppTeamElement: {
@@ -1182,6 +1197,7 @@ declare global {
         "app-slide-contrast": HTMLAppSlideContrastElement;
         "app-slide-navigate": HTMLAppSlideNavigateElement;
         "app-slot-type": HTMLAppSlotTypeElement;
+        "app-svg-background": HTMLAppSvgBackgroundElement;
         "app-team": HTMLAppTeamElement;
         "app-terms": HTMLAppTermsElement;
         "app-transform": HTMLAppTransformElement;
@@ -1597,6 +1613,15 @@ declare namespace LocalJSX {
         "onSelectType"?: (event: CustomEvent<SlotType | null>) => void;
         "selectedElement"?: HTMLElement;
     }
+    interface AppSvgBackground {
+        "colorType"?: 'text' | 'background';
+        "deck"?: boolean;
+        "expander"?: boolean;
+        "moreColors"?: boolean;
+        "onColorChange"?: (event: CustomEvent<void>) => void;
+        "selectedElement"?: HTMLElement;
+        "slide"?: boolean;
+    }
     interface AppTeam {
     }
     interface AppTerms {
@@ -1723,6 +1748,7 @@ declare namespace LocalJSX {
         "app-slide-contrast": AppSlideContrast;
         "app-slide-navigate": AppSlideNavigate;
         "app-slot-type": AppSlotType;
+        "app-svg-background": AppSvgBackground;
         "app-team": AppTeam;
         "app-terms": AppTerms;
         "app-transform": AppTransform;
@@ -1842,6 +1868,7 @@ declare module "@stencil/core" {
             "app-slide-contrast": LocalJSX.AppSlideContrast & JSXBase.HTMLAttributes<HTMLAppSlideContrastElement>;
             "app-slide-navigate": LocalJSX.AppSlideNavigate & JSXBase.HTMLAttributes<HTMLAppSlideNavigateElement>;
             "app-slot-type": LocalJSX.AppSlotType & JSXBase.HTMLAttributes<HTMLAppSlotTypeElement>;
+            "app-svg-background": LocalJSX.AppSvgBackground & JSXBase.HTMLAttributes<HTMLAppSvgBackgroundElement>;
             "app-team": LocalJSX.AppTeam & JSXBase.HTMLAttributes<HTMLAppTeamElement>;
             "app-terms": LocalJSX.AppTerms & JSXBase.HTMLAttributes<HTMLAppTermsElement>;
             "app-transform": LocalJSX.AppTransform & JSXBase.HTMLAttributes<HTMLAppTransformElement>;

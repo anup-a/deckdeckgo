@@ -213,6 +213,13 @@ export class AppElementStyle {
           selectedElement={this.selectedElement}
           moreColors={this.moreColors}
           onColorChange={() => this.emitStyleChange()}></app-color-text-background>,
+        <app-svg-background
+          expander={this.slide}
+          key={'background'}
+          colorType={'background'}
+          selectedElement={this.selectedElement}
+          moreColors={this.moreColors}
+          onColorChange={() => this.emitStyleChange()}></app-svg-background>,
         this.renderImage(),
       ];
     } else if (this.applyToTargetElement === TargetElement.TRANSITION) {
