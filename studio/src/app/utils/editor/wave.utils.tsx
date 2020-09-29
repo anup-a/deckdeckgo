@@ -138,6 +138,7 @@ function generateClosedPath(
   svgPath.setAttributeNS(null, 'stroke', strokeColor);
   svgPath.setAttributeNS(null, 'stroke-width', strokeWidth.toString());
   svgPath.setAttributeNS(null, 'd', path);
+  svgPath.setAttributeNS(null, 'id', 'wave-svg');
 
   return svgPath;
 }

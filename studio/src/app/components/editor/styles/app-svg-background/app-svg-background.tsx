@@ -26,13 +26,13 @@ export class AppSvgBackground {
   colorType: 'text' | 'background' = 'text';
 
   @Prop()
-  hasSvgBackground: boolean = false;
-
-  @Prop()
   expander: boolean = true;
 
   @State()
   private color: string;
+
+  @State()
+  private hasSvgBackground: boolean = false;
 
   @State()
   private colorOpacity: number = 100;
@@ -89,13 +89,12 @@ export class AppSvgBackground {
 
   private async applySvg(element: HTMLElement, svg: SVGElement): Promise<void> {
     return new Promise<void>((resolve) => {
-      if (!this.selectedElement) {
+      if (!this.selectedElement || !element || !svg) {
         resolve();
         return;
       }
       this.hasSvgBackground = true;
       element.appendChild(svg);
-      console.log('appended');
       resolve();
     });
   }
@@ -112,9 +111,18 @@ export class AppSvgBackground {
     });
   }
 
-  // private async changeSVGColor(): Promise<void>{
-
-  // }
+  private async changeSVGColor(): Promise<void> {
+    return new Promise<void>((resolve) => {
+      if (!this.selectedElement || !this.color || !this.hasSvgBackground) {
+        resolve();
+        return;
+      }
+      var svgElement = document.getElementById('wave-svg');
+      var fillColor = `rgb(${this.color})`;
+      svgElement.setAttribute('fill', fillColor);
+      resolve();
+    });
+  }
 
   private async selectColor($event: CustomEvent) {
     if (!this.selectedElement || !$event || !$event.detail) {
@@ -122,59 +130,7 @@ export class AppSvgBackground {
     }
 
     this.color = $event.detail.rgb;
-
-    await this.applyColor();
-  }
-
-  private async applyColor() {
-    if (this.colorType === 'background') {
-      await this.applyBackground();
-    }
-  }
-
-  private resetColor(): Promise<void> {
-    return new Promise<void>((resolve) => {
-      if (!this.selectedElement) {
-        resolve();
-        return;
-      }
-
-      if (this.colorType === 'background') {
-        this.selectedElement.style.removeProperty('--background');
-        this.selectedElement.style.removeProperty('background');
-      } else {
-        this.selectedElement.style.removeProperty('--color');
-        this.selectedElement.style.removeProperty('color');
-      }
-
-      this.color = null;
-      this.colorOpacity = 100;
-
-      this.colorChange.emit();
-
-      resolve();
-    });
-  }
-
-  private applyBackground(): Promise<void> {
-    return new Promise<void>((resolve) => {
-      if (!this.selectedElement || !this.color) {
-        resolve();
-        return;
-      }
-
-      const selectedColor: string = `rgba(${this.color},${ColorUtils.transformOpacity(this.colorOpacity)})`;
-
-      if (this.deck || this.slide) {
-        this.selectedElement.style.setProperty('--background', selectedColor);
-      } else {
-        this.selectedElement.style.background = selectedColor;
-      }
-
-      this.colorChange.emit();
-
-      resolve();
-    });
+    await this.changeSVGColor();
   }
 
   private updateOpacity($event: CustomEvent<RangeChangeEventDetail>): Promise<void> {
