@@ -380,6 +380,7 @@ export namespace Components {
         "colorType": 'text' | 'background';
         "deck": boolean;
         "expander": boolean;
+        "hasSvgBackground": boolean;
         "initCurrentColors": () => Promise<void>;
         "moreColors": boolean;
         "selectedElement": HTMLElement;
@@ -1617,6 +1618,7 @@ declare namespace LocalJSX {
         "colorType"?: 'text' | 'background';
         "deck"?: boolean;
         "expander"?: boolean;
+        "hasSvgBackground"?: boolean;
         "moreColors"?: boolean;
         "onColorChange"?: (event: CustomEvent<void>) => void;
         "selectedElement"?: HTMLElement;

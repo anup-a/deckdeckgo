@@ -11,18 +11,18 @@ export interface ControlPoints {
 }
 
 export interface WaveProps {
-  width: number;
-  height: number;
-  segmentCount: number;
-  layerCount: number;
-  variance: number;
-  strokeWidth: number;
-  strokeColor: string;
-  fillColor: string;
+  width?: number;
+  height?: number;
+  segmentCount?: number;
+  layerCount?: number;
+  variance?: number;
+  strokeWidth?: number;
+  strokeColor?: string;
+  fillColor?: string;
 }
 
 let defaultData = {
-  width: 800,
+  width: 1440,
   height: 300,
   segmentCount: 4,
   layerCount: 2,
@@ -107,7 +107,7 @@ function generateClosedPath(
   filleColor: string,
   strokeColor: string,
   strokeWidth: number
-): HTMLElement {
+): SVGElement {
   const xPoints = curvePoints.map((p) => p.x);
   console.log(xPoints);
   const yPoints = curvePoints.map((p) => p.y);
@@ -133,7 +133,7 @@ function generateClosedPath(
     `${rightCornerPoint.x},${rightCornerPoint.y} ` +
     `${rightCornerPoint.x},${rightCornerPoint.y} Z`;
 
-  const svgPath = document.createElementNS(this.svgns, 'path');
+  const svgPath = document.createElementNS(svgns, 'path');
   svgPath.setAttributeNS(null, 'fill', filleColor);
   svgPath.setAttributeNS(null, 'stroke', strokeColor);
   svgPath.setAttributeNS(null, 'stroke-width', strokeWidth.toString());

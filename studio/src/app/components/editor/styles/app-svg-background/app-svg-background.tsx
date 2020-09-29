@@ -26,6 +26,9 @@ export class AppSvgBackground {
   colorType: 'text' | 'background' = 'text';
 
   @Prop()
+  hasSvgBackground: boolean = false;
+
+  @Prop()
   expander: boolean = true;
 
   @State()
@@ -63,6 +66,55 @@ export class AppSvgBackground {
     this.color = styleColor.rgb;
     this.colorOpacity = styleColor.opacity;
   }
+
+  waveInit(data: WaveProps): {element: HTMLElement; svg: SVGElement} {
+    let wavery = new Wave(data);
+    var svg = wavery.generateSvg();
+    var element = document.getElementById('svg-background');
+
+    return {element, svg};
+  }
+
+  private async toggleSvgBackground($event: CustomEvent) {
+    if (!this.selectedElement || !$event || !$event.detail) {
+      return;
+    }
+    const {element, svg} = this.waveInit({});
+    if (!this.hasSvgBackground) {
+      await this.applySvg(element, svg);
+    } else {
+      await this.removeSvg(element);
+    }
+  }
+
+  private async applySvg(element: HTMLElement, svg: SVGElement): Promise<void> {
+    return new Promise<void>((resolve) => {
+      if (!this.selectedElement) {
+        resolve();
+        return;
+      }
+      this.hasSvgBackground = true;
+      element.appendChild(svg);
+      console.log('appended');
+      resolve();
+    });
+  }
+
+  private async removeSvg(element: HTMLElement): Promise<void> {
+    return new Promise<void>((resolve) => {
+      if (!this.selectedElement || !element) {
+        resolve();
+        return;
+      }
+      this.hasSvgBackground = false;
+      element.innerHTML = '';
+      resolve();
+    });
+  }
+
+  // private async changeSVGColor(): Promise<void>{
+
+  // }
 
   private async selectColor($event: CustomEvent) {
     if (!this.selectedElement || !$event || !$event.detail) {
@@ -147,7 +199,10 @@ export class AppSvgBackground {
   render() {
     return (
       <app-expansion-panel expander={this.expander}>
-        <ion-label slot="title">Wavy Background</ion-label>
+        <ion-label slot="title">
+          Wavy Background
+          <ion-toggle onIonChange={(e: CustomEvent) => this.toggleSvgBackground(e)}></ion-toggle>
+        </ion-label>
         <ion-list class="ion-no-padding">
           <ion-item-divider class="ion-padding-top">
             <ion-label>
